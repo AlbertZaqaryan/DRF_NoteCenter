@@ -16,6 +16,12 @@ class Product(models.Model):
     def __str__(self):
         return self.productName
 
+class Color(models.Model):
+    name = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.name
+
 class Parameter(models.Model):
     product = models.ForeignKey(Product, related_name='parameters', on_delete=models.CASCADE)
     screen = models.CharField(max_length=100)
@@ -24,3 +30,4 @@ class Parameter(models.Model):
     ram = models.CharField(max_length=100)
     camera = models.CharField(max_length=100)
     gpu = models.CharField(max_length=100)
+    color = models.ManyToManyField(Color)

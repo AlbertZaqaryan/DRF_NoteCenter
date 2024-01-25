@@ -4,7 +4,7 @@ from .models import Category, Product, Parameter
 class ParameterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Parameter
-        fields = ('screen', 'cpu', 'ssd', 'ram', 'camera', 'gpu')
+        fields = ('screen', 'cpu', 'ssd', 'ram', 'camera', 'gpu', 'color')
 
 class ProductSerializer(serializers.ModelSerializer):
     parameters = ParameterSerializer(many=True)
