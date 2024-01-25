@@ -13,3 +13,4 @@ class ProductViewSet(viewsets.ModelViewSet):
 class ParameterViewSet(viewsets.ModelViewSet):
     queryset = Parameter.objects.all()
     serializer_class = ParameterSerializer
+
