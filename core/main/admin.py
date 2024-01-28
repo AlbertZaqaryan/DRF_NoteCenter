@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Category, Parameter, Color
+from .models import Product, Category, Parameter, Color, Brand
 # Register your models here.
 
 @admin.register(Category)
@@ -22,3 +22,4 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ['screen', 'cpu', 'ssd', 'ram', 'camera', 'gpu', 'color']
 
 admin.site.register(Color)
+admin.site.register(Brand)

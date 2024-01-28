@@ -6,6 +6,10 @@ class ParameterSerializer(serializers.ModelSerializer):
         model = Parameter
         fields = ('screen', 'cpu', 'ssd', 'ram', 'camera', 'gpu')
 
+class BrandSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Brand
+        fields = ('name', )
 
 class ColorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,11 +19,12 @@ class ColorSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     parameters = ParameterSerializer(many=True)
     colors = ColorSerializer(many=True, read_only=True)
+    brand = BrandSerializer(read_only=True)
 
 
     class Meta:
         model = Product
-        fields = ('id', 'productName', 'img', 'price', 'discount', 'parameters', 'colors')
+        fields = ('id', 'brand', 'productName', 'img', 'price', 'discount', 'parameters', 'colors')
 
 class CategorySerializer(serializers.ModelSerializer):
     products = ProductSerializer(many=True)
@@ -29,7 +34,3 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ('name', 'products')
 
 
-class BrandSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Brand
-        fields = ('id', 'name')
