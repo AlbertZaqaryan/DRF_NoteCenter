@@ -6,6 +6,10 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
 class Brand(models.Model):
     name = models.CharField(max_length=100)
 
@@ -39,3 +43,6 @@ class Parameter(models.Model):
     ram = models.CharField(max_length=100)
     camera = models.CharField(max_length=100)
     gpu = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f'{self.product.productName} Parameters'

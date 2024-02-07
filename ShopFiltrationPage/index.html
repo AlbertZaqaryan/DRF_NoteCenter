@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./lib/css/font.css">
+        <link rel="stylesheet" href="./lib/css/normalize.css">
+        <link rel="stylesheet" href="./lib/css/style.css">
+        <link rel="stylesheet" href="./lib/css/media.css">
+        <link rel="stylesheet" href="./lib/css/animations.css">
+        <link rel="stylesheet" href="./lib/css/scrollbar.css">
+        <title>Service Notebookcentre</title>
+    </head>
+    <body>
+        <div class="page">       
+            <navbar class="header__modal_menu modal_menu">
+                <div class="modal_menu__pointer"></div>
+            </navbar>
+
+            <div class="page__product_loading_modal">
+                <div class="modal_rotating_circle">
+                    <div class="modal_rotating_circle_line"></div>
+                    <div class="modal_rotating_circle_line"></div>
+                </div>
+            </div>
+            
+            <header class="page__header header">
+
+                <div class="header__menu_btn closed">
+                    <div class="header__menu_btn_open_line"></div>
+                    <div class="header__menu_btn_open_line"></div>
+                    <div class="header__menu_btn_open_line"></div>
+
+                    <div class="header__menu_btn_close_line"></div>
+                    <div class="header__menu_btn_close_line"></div>
+                </div>
+
+                <button class="header__back_btn">
+                    <img src="./lib/img/svg/arrow.svg" alt="arrow" width="125" height="125">
+                </button>
+
+                <h1 class="header__category_name"></h1> 
+
+                <div class="header__logo">
+                    <img src="./lib/img/logo.png" alt="logo" width="300">
+                </div>
+            </header>
+
+            <main class="page__main main">
+
+                <div class="main__start_page start_page">
+
+                    <h1>New Products</h1>
+
+                    <div class="start_page__slider slider">
+                        <button class="slider__toLeftBtn" id="toLeftBtn">
+                            <img src="./lib/img/svg/arrow.svg" alt="slider-btn-arrow">
+                        </button>
+
+                        <div class="slider__current_images">
+                            <div class="slider__current_image">
+                                <img src="./lib/img/products/notebooks/lenovo-thinkpad.png" alt="img1">
+                            </div>
+                            <div class="slider__current_image">
+                                <img src="./lib/img/products/notebooks/asus-rog.png" alt="img2">
+                            </div>
+                            <div class="slider__current_image">
+                                <img src="./lib/img/products/notebooks/macbook-pro.png" alt="img3">
+                            </div>
+                        </div>
+
+                        <button class="slider__toRightBtn" id="toRightBtn">
+                            <img src="./lib/img/svg/arrow.svg" alt="slider-btn-arrow">
+                        </button>
+                    </div>
+                </div>
+
+                <aside class="main__filtration">
+                    <div class="main__filtration__product_name_box">
+                        <h2>Filtering Panel</h2>
+
+                        <div class="main__filtration_prodname">
+                            <div class="prodname_animation"></div>
+
+                            <input type="text" name="productName" id="productNameInp" placeholder="Enter Product Name">
+
+                            <button class="main__filtration_prodname_btn" id="ResetBtn">Reset</button>
+
+                            <button class="main__filtration_prodname_btn" id="SearchBtn">
+                                <img src="./lib/img/svg/search.svg" width="45">
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="main__filtration__price_box">
+                        <h2>Price</h2>
+
+                        <div class="main__filtration__price_box_inputs">
+                            <input type="number" name="minPrice" id="minPriceInp" placeholder="Min">
+
+                            <span>To</span>
+                            
+                            <input type="number" name="maxPrice" id="maxPriceInp" placeholder="Max">
+                        </div>
+
+                        <div class="main__filtration__price_bars">
+                           <input type="range" name="minPriceBar" class="main__filtration__price_bar" id="minPrice" min="0" max="250000" step="10" value="0">
+
+                           <input type="range" name="maxPriceBar" class="main__filtration__price_bar" id="maxPrice" min="0" max="250000" step="10" value="0">
+                        </div>
+
+                    </div>
+                </aside>
+
+                <section class="main__products products closed">
+                    <div class="modal_loading">
+                        <div class="modal_rotating_circle" id="filterLoading">
+                            <div class="modal_rotating_circle_line"></div>
+                            <div class="modal_rotating_circle_line"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <a class="main__serviceBtn" href="https://service.notebookcentre.am/">Service</a>
+            </main>
+        </div>
+
+        <script src="./lib/js/script.js" type="module"></script>
+    </body>
+</html>
