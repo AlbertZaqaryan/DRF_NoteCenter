@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Category, Product, Parameter, Color, Brand
-from .serializers import CategorySerializer, ProductSerializer, ParameterSerializer, ColorSerializer, BrandSerializer
+from .models import Category, Product, Parameter, Color, Brand, Slider
+from .serializers import CategorySerializer, ProductSerializer, ParameterSerializer, ColorSerializer, BrandSerializer, SliderSerializer
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
@@ -22,3 +22,7 @@ class ColorViewSet(viewsets.ModelViewSet):
     queryset = Color.objects.all()
     serializer_class = ColorSerializer
 
+
+class SliderViewSet(viewsets.ModelViewSet):
+    queryset = Slider.objects.all()
+    serializer_class = SliderSerializer

@@ -19,13 +19,14 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
-from main.views import CategoryViewSet, ProductViewSet, ParameterViewSet
+from main.views import CategoryViewSet, ProductViewSet, ParameterViewSet, SliderViewSet
 
 
 router = DefaultRouter()
 router.register(r'categories', CategoryViewSet)
 router.register(r'products', ProductViewSet)
 router.register(r'parameters', ParameterViewSet)
+router.register(r'slider', SliderViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

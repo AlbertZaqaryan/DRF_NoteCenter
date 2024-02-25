@@ -1,5 +1,15 @@
 from django.db import models
 
+
+class Slider(models.Model):
+
+    image_name = models.CharField('Slider image name', max_length=50)
+    image = models.ImageField('Slider image', upload_to='images')
+
+    def __str__(self):
+        return f'Image -> {self.image_name}'
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
 
@@ -27,6 +37,9 @@ class Product(models.Model):
     brand = models.ForeignKey(Brand, related_name='products', on_delete=models.CASCADE)
     productName = models.CharField(max_length=100)
     img = models.ImageField(upload_to='images')
+    img1 = models.ImageField(upload_to='images')
+    img2 = models.ImageField(upload_to='images')
+    img3 = models.ImageField(upload_to='images')
     price = models.IntegerField()
     discount = models.IntegerField()
     colors = models.ManyToManyField(Color)

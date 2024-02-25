@@ -8,7 +8,7 @@ python -m venv venv
 
 .\venv\Scripts\Activate in windows, source venv/bin/activate in mac or linux
 
-python -m pip instal --upgrade pip
+python -m pip install --upgrade pip
 
 pip install -r requirements.txt
 
