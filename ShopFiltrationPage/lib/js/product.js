@@ -25,13 +25,18 @@ function loadProduct() {
 
         let 
         params = "",
-        colors = "";
+        colors = "",
+        images = "";
 
         params += `<span>Product Name: ${product.productName}</span>`; 
 
         Object.keys(product.parameters).forEach(key => { params += `<span>${key[0].toUpperCase() + key.slice(1)}: ${product.parameters[key]}</span>` })
 
         Object.keys(product.colors).forEach(key => { colors += ` <span class="product_page__product_Info_params_color ${product.colors[key].name}"></span>` });
+
+        Object.keys(product).filter(category => category.includes("img")).forEach(key => images += `<img src="${product[key]}" alt="product_image">`)
+
+        const imagesCount = Object.keys(product).filter(category => category.includes("img")).length;
 
         productPage.innerHTML +=
         `
@@ -41,7 +46,19 @@ function loadProduct() {
                         <div class="product_page__product_params">${params}</div>
 
                         <div class="product_page__product_Info">
-                            <img src="${product.img}" alt="product_img">
+                            <div class="product_page__product_Info_slider">
+                                <div class="product_page__product_Info_slider_btn" id="productSliderToLeft">
+                                    <img src="./lib/img/svg/arrow.svg">
+                                </div>
+                                
+                                <div class="product_page__product_Info_slider_images">
+                                    ${images}
+                                </div>
+                                
+                                <div class="product_page__product_Info_slider_btn" id="productSliderToRight">
+                                    <img src="./lib/img/svg/arrow.svg">
+                                </div>
+                            </div>
 
                             <div class="product_page__product_Info_params">
 
@@ -74,6 +91,8 @@ function loadProduct() {
         `
     
         colorsSelect();
+
+        productSliderFunctional(imagesCount);
     }))
 }
 
@@ -88,7 +107,45 @@ function backBtnFunctional() {
         localStorage.setItem("backBtn", "open")
 
         setTimeout(() => {
-            window.open("/index.html", "_self")
+            window.open("index.html", "_self")
         },500)
     })
+}
+
+function productSliderFunctional(imagesCount) {
+    
+    const [toLeftBtn, toRightBtn] = document.querySelectorAll("#productSliderToLeft, #productSliderToRight");
+
+    let current = 0, imageLength;
+
+    if(imagesCount > 1) {
+    
+        toLeftBtn.addEventListener("click", ev => {
+
+            imageLength = document.querySelector(".product_page__product_Info_slider_images > img").getBoundingClientRect().width;
+            
+            if(current < imagesCount - 1) {
+                
+                current++;
+                
+                document.querySelectorAll(".product_page__product_Info_slider_images > img").forEach(img => img.style.transform = `translateX(-${current * imageLength}px)`);
+            }
+        })
+
+        toRightBtn.addEventListener("click", ev => {
+            
+            imageLength = document.querySelector(".product_page__product_Info_slider_images > img").getBoundingClientRect().width;
+
+            if(current > 0) {
+                
+                current--;
+
+                document.querySelectorAll(".product_page__product_Info_slider_images > img").forEach(img => img.style.transform = `translateX(-${current * imageLength}px)`);
+            }
+        })
+    }
+    else {
+        
+        [toLeftBtn, toRightBtn].forEach(btn => btn.remove());
+    }
 }

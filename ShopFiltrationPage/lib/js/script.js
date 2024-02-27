@@ -13,7 +13,7 @@ function filtrationPanelBoxes(categoryName, res) {
 
             category.products.forEach(product => {
                         
-                const filtered = Object.keys(product).filter(key => key.toLowerCase() != "productname" && key.toLowerCase() != "img" && key.toLowerCase() != "parameters" && typeof product[key] != "number")
+                const filtered = Object.keys(product).filter(key => key.toLowerCase() != "productname" && !key.includes("img") && key.toLowerCase() != "parameters" && typeof product[key] != "number")
                     
                 Object.keys(product.parameters[0]).forEach(key => !parametersToAdd.includes(key) ? parametersToAdd.push(key) : false);
                         
@@ -30,7 +30,7 @@ function filtrationPanelBoxes(categoryName, res) {
 
     parametersScopeFunc(categoryName, res);
 
-    parametersToAdd.forEach(key => {
+    ["brand", "colors", ...parametersToAdd.filter(key => key != "brand" && key != "colors")].forEach(key => {
 
         if(key == "colors") {
             filtrationPanel.innerHTML += 
@@ -73,7 +73,7 @@ function parametersScopeFunc(categoryName, res) {
                 
                 Object.keys(product).forEach(key => {
                     
-                    if(key.toLowerCase() != "productname" && key.toLowerCase() != "img" && key.toLowerCase() != "parameters" && typeof product[key] != "number") {
+                    if(key.toLowerCase() != "productname" && !key.includes("img") && key.toLowerCase() != "parameters" && typeof product[key] != "number") {
                         
                         !parametersScope.details.includes(key.toLowerCase()) ? parametersScope.details.push(key.toLowerCase()) : false;
                     }
@@ -119,6 +119,8 @@ function getProductsStaticParameters() {
 }
 
 export const requestLink = "http://127.0.0.1:8000/data/categories/";
+
+const sliderRequestLink = "http://127.0.0.1:8000/data/slider/";
 
 let currentCategory;
 
@@ -421,8 +423,8 @@ function addParameters(parametersToAdd) {
 
     document.querySelectorAll(".main__filtration__parameters > *").forEach(e => e.remove());
 
-    Object.keys(parametersToAdd).forEach(key => {
-
+    Object.keys(parametersToAdd).sort().forEach(key => {
+        
         let section = document.querySelector(`#${key} > .main__filtration__parameters`);
         
         if(Array.isArray(parametersToAdd[key]) && section) {
@@ -1152,82 +1154,91 @@ function backBtnHide() {
 
 function sliderFunc() {
 
-    let staticWidth = document.querySelector(".slider__current_image").getBoundingClientRect().width;
-
-    const images = document.querySelectorAll(".slider__current_images > *");
-    
     let 
     currentImage = 0,
     currentPos = 0;
-    
-    window.onresize = () => {
 
-        staticWidth = document.querySelector(".slider__current_image").getBoundingClientRect().width;
+    fetch(sliderRequestLink).then(res => res.json().then(res => { 
 
-        currentImage = 0;
-        currentPos = 0;
+        const currentImages = document.querySelector(".slider__current_images");
+        
+        res.forEach(image => {
+            currentImages.innerHTML += 
+            `
+            <div class="slider__current_image">
+                <img src="${image.image}" alt="img">
+            </div>
+            `
+        })
 
-        images.forEach(e => e.style.transform = `translateX(0px)`);
-    }
+        const images = document.querySelectorAll(".slider__current_images > *");
 
-    const toRightBtn = () =>  {
+        let staticWidth = document.querySelector(".slider__current_image").getBoundingClientRect().width;
+        
+        window.onresize = () => {
 
-        if(currentImage-1 >= 0) { 
-            
-            currentImage-=1;
-
-            currentPos = currentImage * staticWidth;
-
-            images.forEach(e => e.style.transform = `translateX(-${currentPos}px)`);
-        } 
-        else {
-            currentImage = images.length - 1;
-
-            currentPos = currentImage * staticWidth;
-            
-            images.forEach(e => e.style.transform = `translateX(-${currentPos}px)`);
-        }  
-    };
-    
-    const toLeftBtn = () => { 
-
-        if(currentImage+1 < images.length) { 
-            
-            currentImage+=1;
-
-            currentPos = currentImage * staticWidth;
-            
-            images.forEach(e => e.style.transform = `translateX(-${currentPos}px)`);
-        } 
-        else {
+            staticWidth = document.querySelector(".slider__current_image").getBoundingClientRect().width;
 
             currentImage = 0;
+            currentPos = 0;
 
-            currentPos = currentImage * staticWidth;
+            images.forEach(e => e.style.transform = `translateX(0px)`);
+        }
+
+        const toRightBtn = () =>  {
+
+            if(currentImage-1 >= 0) { 
+                
+                currentImage-=1;
+
+                currentPos = currentImage * staticWidth;
+
+                images.forEach(e => e.style.transform = `translateX(-${currentPos}px)`);
+            } 
+            else {
+                currentImage = images.length - 1;
+
+                currentPos = currentImage * staticWidth;
+                
+                images.forEach(e => e.style.transform = `translateX(-${currentPos}px)`);
+            }  
+        };
+        
+        const toLeftBtn = () => { 
             
-            images.forEach(e => e.style.transform = `translateX(-${currentPos}px)`);
-        }  
-    };
-    
-    let interval = setInterval(toLeftBtn, 4000); 
+            if(currentImage+1 < images.length) { 
+                
+                currentImage+=1;
 
-    backBtn.addEventListener('click', ev => {
+                currentPos = currentImage * staticWidth;
+                
+                images.forEach(e => e.style.transform = `translateX(-${currentPos}px)`);
+            } 
+            else {
 
-        interval = setInterval(toLeftBtn, 4000);
-    })
-    
-    document.getElementById("toLeftBtn").addEventListener('click', ev => { if(interval) { clearInterval(interval); toLeftBtn(); } else toLeftBtn(); });
+                currentImage = 0;
 
-    document.getElementById("toRightBtn").addEventListener('click', ev => { if(interval) { clearInterval(interval); toRightBtn(); } else toRightBtn(); });
+                currentPos = currentImage * staticWidth;
+                
+                images.forEach(e => e.style.transform = `translateX(-${currentPos}px)`);
+            }  
+        };
+        
+        let interval = setInterval(toLeftBtn, 4000); 
+        
+        document.getElementById("toLeftBtn").addEventListener('click', ev => { if(interval) { clearInterval(interval); toLeftBtn(); } else toLeftBtn(); });
+
+        document.getElementById("toRightBtn").addEventListener('click', ev => { if(interval) { clearInterval(interval); toRightBtn(); } else toRightBtn(); });
+    }))
 }
 
 //Start page hide and show functions
 const 
 startPage = document.querySelector(".start_page");
 
-const closeStartPage = () => { startPage.querySelector("h1").style.overflow = "hidden"; startPage.style.height = "0px"; setTimeout(() => { startPage.style.visibility = "hidden" }, 1000) };
+const closeStartPage = () => { startPage.style.height = "0px"; startPage.querySelector("h1").style.overflow = "hidden"; setTimeout(() => { startPage.style.visibility = "hidden" }, 1000) };
 
-const openStartPage = () => { startPage.style.height = "100vh"; startPage.style.visibility = "visible" };
+const openStartPage = () => { startPage.style.height = "100vh";startPage.querySelector("h1").style.overflow = "auto"; startPage.style.visibility = "visible"; sliderFunc(); };
 
 //Logo hide and show functions
 const logo = document.querySelector(".header__logo");
@@ -1304,6 +1315,6 @@ function sendProductData(obj) {
     productLoadingModalShow();
 
     setTimeout(() => {
-        window.open("/product.html", "_self");
+        window.open("product.html", "_self");
     }, 750)
 }

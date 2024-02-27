@@ -1,0 +1,11 @@
+[
+    {
+        "image": "../lib/img/products/notebooks/macbook-pro.png"
+    },
+    {
+        "image": "../lib/img/products/notebooks/asus-rog.png"
+    },
+    {
+        "image": "../lib/img/products/notebooks/lenovo-thinkpad.png"
+    }
+]
